@@ -1,11 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-// FIX: Changed to namespace import for react-router-dom to resolve module issues.
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const AdminSidebar: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOpen, onClose }) => {
-    const location = ReactRouterDOM.useLocation();
+    const location = useLocation();
     const navItems = [
         { path: '/admin', icon: 'fa-home', label: 'Admin Home' },
         { path: '/admin/dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
@@ -26,7 +25,7 @@ const AdminSidebar: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
             </div>
             <nav className="flex flex-col p-4 space-y-2 overflow-y-auto">
                 {navItems.map(item => (
-                    <ReactRouterDOM.Link
+                    <Link
                         key={item.path}
                         to={item.path}
                         onClick={onClose}
@@ -34,11 +33,11 @@ const AdminSidebar: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
                     >
                         <i className={`fas ${item.icon} w-6 mr-3`}></i>
                         <span>{item.label}</span>
-                    </ReactRouterDOM.Link>
+                    </Link>
                 ))}
             </nav>
             <div className="mt-auto p-4">
-                <ReactRouterDOM.Link
+                <Link
                     to="/"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -47,7 +46,7 @@ const AdminSidebar: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
                 >
                     <i className="fas fa-external-link-alt mr-3"></i>
                     <span className="font-semibold">STAY RAW Store</span>
-                </ReactRouterDOM.Link>
+                </Link>
             </div>
         </aside>
         </>
@@ -56,8 +55,8 @@ const AdminSidebar: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
 
 const AdminHeader: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
     const { currentUser, logout } = useAuth();
-    const navigate = ReactRouterDOM.useNavigate();
-    const [searchParams] = ReactRouterDOM.useSearchParams();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
 
     useEffect(() => {
@@ -122,7 +121,7 @@ const AdminPromotionBanner: React.FC<{ onClose: () => void }> = ({ onClose }) =>
     <div className="relative bg-gradient-to-r from-blue-500 to-teal-400 text-white p-4 rounded-lg shadow-md mb-6 flex items-center justify-between">
         <div>
             <h3 className="font-bold"><i className="fas fa-bullhorn mr-2"></i>Boost Sales!</h3>
-            <p className="text-sm opacity-90">Consider running a promotional campaign. <ReactRouterDOM.Link to="/admin/products" className="underline hover:text-amber-200">Manage products for your next sale.</ReactRouterDOM.Link></p>
+            <p className="text-sm opacity-90">Consider running a promotional campaign. <Link to="/admin/products" className="underline hover:text-amber-200">Manage products for your next sale.</Link></p>
         </div>
         <button
             onClick={onClose}
@@ -139,7 +138,7 @@ const AdminLayout: React.FC = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const { currentUser } = useAuth();
     const [isPromoBannerVisible, setIsPromoBannerVisible] = useState(true);
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
 
     const handleMobileSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -173,7 +172,7 @@ const AdminLayout: React.FC = () => {
                     </div>
                     <AdminBanner adminName={currentUser?.name || 'Admin'} />
                     {isPromoBannerVisible && <AdminPromotionBanner onClose={() => setIsPromoBannerVisible(false)} />}
-                    <ReactRouterDOM.Outlet />
+                    <Outlet />
                 </main>
             </div>
         </div>
