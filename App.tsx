@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-// FIX: Changed to namespace import for react-router-dom to resolve module issues.
-import * as ReactRouterDOM from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // Import Contexts
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -43,12 +42,12 @@ import AdminCouponsPage from './components/pages/admin/AdminCouponsPage';
 
 const UserProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { currentUser } = useAuth();
-    return currentUser && !currentUser.isAdmin ? <>{children}</> : <ReactRouterDOM.Navigate to="/login" />;
+    return currentUser && !currentUser.isAdmin ? <>{children}</> : <Navigate to="/login" />;
 };
 
 const AdminProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { currentUser } = useAuth();
-    return currentUser && currentUser.isAdmin ? <>{children}</> : <ReactRouterDOM.Navigate to="/admin/login" />;
+    return currentUser && currentUser.isAdmin ? <>{children}</> : <Navigate to="/admin/login" />;
 };
 
 const AppContent: React.FC = () => {
@@ -67,41 +66,41 @@ const AppContent: React.FC = () => {
     }, []);
 
     return (
-        <ReactRouterDOM.HashRouter>
-            <ReactRouterDOM.Routes>
+        <HashRouter>
+            <Routes>
                 {/* User Routes */}
-                <ReactRouterDOM.Route path="/login" element={<LoginPage />} />
-                <ReactRouterDOM.Route path="/" element={<UserLayout />}>
-                    <ReactRouterDOM.Route index element={<HomePage />} />
-                    <ReactRouterDOM.Route path="category/:categoryId" element={<ProductListPage />} />
-                    <ReactRouterDOM.Route path="product/:productId" element={<ProductDetailPage />} />
-                    <ReactRouterDOM.Route path="search" element={<SearchResultsPage />} />
-                    <ReactRouterDOM.Route path="cart" element={<UserProtectedRoute><CartPage /></UserProtectedRoute>} />
-                    <ReactRouterDOM.Route path="checkout" element={<UserProtectedRoute><CheckoutPage /></UserProtectedRoute>} />
-                    <ReactRouterDOM.Route path="orders" element={<UserProtectedRoute><OrderPage /></UserProtectedRoute>} />
-                    <ReactRouterDOM.Route path="profile" element={<UserProtectedRoute><ProfilePage /></UserProtectedRoute>} />
-                    <ReactRouterDOM.Route path="wishlist" element={<UserProtectedRoute><WishlistPage /></UserProtectedRoute>} />
-                </ReactRouterDOM.Route>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/" element={<UserLayout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="category/:categoryId" element={<ProductListPage />} />
+                    <Route path="product/:productId" element={<ProductDetailPage />} />
+                    <Route path="search" element={<SearchResultsPage />} />
+                    <Route path="cart" element={<UserProtectedRoute><CartPage /></UserProtectedRoute>} />
+                    <Route path="checkout" element={<UserProtectedRoute><CheckoutPage /></UserProtectedRoute>} />
+                    <Route path="orders" element={<UserProtectedRoute><OrderPage /></UserProtectedRoute>} />
+                    <Route path="profile" element={<UserProtectedRoute><ProfilePage /></UserProtectedRoute>} />
+                    <Route path="wishlist" element={<UserProtectedRoute><WishlistPage /></UserProtectedRoute>} />
+                </Route>
 
                 {/* Admin Routes */}
-                <ReactRouterDOM.Route path="/admin/login" element={<AdminLoginPage />} />
-                <ReactRouterDOM.Route path="/admin" element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
-                    <ReactRouterDOM.Route index element={<AdminHomePage />} />
-                    <ReactRouterDOM.Route path="dashboard" element={<AdminDashboardPage />} />
-                    <ReactRouterDOM.Route path="categories" element={<AdminCategoriesPage />} />
-                    <ReactRouterDOM.Route path="products" element={<AdminProductsPage />} />
-                    <ReactRouterDOM.Route path="orders" element={<AdminOrdersPage />} />
-                    <ReactRouterDOM.Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
-                    <ReactRouterDOM.Route path="users" element={<AdminUsersPage />} />
-                    <ReactRouterDOM.Route path="settings" element={<AdminSettingsPage />} />
-                    <ReactRouterDOM.Route path="banners" element={<AdminBannersPage />} />
-                    <ReactRouterDOM.Route path="coupons" element={<AdminCouponsPage />} />
-                </ReactRouterDOM.Route>
+                <Route path="/admin/login" element={<AdminLoginPage />} />
+                <Route path="/admin" element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
+                    <Route index element={<AdminHomePage />} />
+                    <Route path="dashboard" element={<AdminDashboardPage />} />
+                    <Route path="categories" element={<AdminCategoriesPage />} />
+                    <Route path="products" element={<AdminProductsPage />} />
+                    <Route path="orders" element={<AdminOrdersPage />} />
+                    <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
+                    <Route path="users" element={<AdminUsersPage />} />
+                    <Route path="settings" element={<AdminSettingsPage />} />
+                    <Route path="banners" element={<AdminBannersPage />} />
+                    <Route path="coupons" element={<AdminCouponsPage />} />
+                </Route>
 
                 {/* Fallback Route */}
-                <ReactRouterDOM.Route path="*" element={<ReactRouterDOM.Navigate to="/" />} />
-            </ReactRouterDOM.Routes>
-        </ReactRouterDOM.HashRouter>
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </HashRouter>
     );
 };
 
