@@ -1,7 +1,6 @@
 
 import React, { useState, FormEvent } from 'react';
-// FIX: Changed to namespace import for react-router-dom to resolve module issues.
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { LoadingModal } from '../../common/LoadingSpinner';
 import useSEO from '../../../hooks/useSEO';
@@ -15,7 +14,7 @@ const LoginPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
     const { login, signup } = useAuth();
 
     const handleLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -86,7 +85,7 @@ const LoginPage: React.FC = () => {
                     </form>
                 )}
                  <p className="text-center mt-4 text-sm text-gray-600">
-                    Admin? <ReactRouterDOM.Link to="/admin/login" className="text-amber-600 hover:underline">Admin Login</ReactRouterDOM.Link>
+                    Admin? <Link to="/admin/login" className="text-amber-600 hover:underline">Admin Login</Link>
                 </p>
             </div>
         </div>
