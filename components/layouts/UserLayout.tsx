@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
-// FIX: Changed to namespace import for react-router-dom to resolve module issues.
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import Chatbot from '../common/Chatbot';
@@ -9,7 +8,7 @@ import Chatbot from '../common/Chatbot';
 const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
     const { cartCount } = useCart();
     const { currentUser } = useAuth();
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = (e: React.FormEvent) => {
@@ -27,9 +26,9 @@ const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
                 <button onClick={onMenuClick} className="text-white md:hidden">
                     <i className="fas fa-bars text-xl"></i>
                 </button>
-                <ReactRouterDOM.Link to="/" className="text-2xl font-extrabold tracking-wider">
+                <Link to="/" className="text-2xl font-extrabold tracking-wider">
                     STAY RAW
-                </ReactRouterDOM.Link>
+                </Link>
             </div>
             
             <div className="hidden md:flex flex-grow max-w-2xl mx-4">
@@ -49,17 +48,17 @@ const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
 
             <div className="flex items-center space-x-6">
                 {currentUser ? (
-                     <ReactRouterDOM.Link to="/profile" className="hidden md:flex flex-col items-center hover:text-gray-200">
+                     <Link to="/profile" className="hidden md:flex flex-col items-center hover:text-gray-200">
                         <i className="fas fa-user-circle text-xl"></i>
                         <span className="text-xs">{currentUser.name.split(' ')[0]}</span>
-                    </ReactRouterDOM.Link>
+                    </Link>
                 ) : (
-                    <ReactRouterDOM.Link to="/login" className="bg-amber-400 text-gray-900 px-6 py-1.5 text-sm font-semibold rounded-sm hover:bg-amber-500">
+                    <Link to="/login" className="bg-amber-400 text-gray-900 px-6 py-1.5 text-sm font-semibold rounded-sm hover:bg-amber-500">
                         Login
-                    </ReactRouterDOM.Link>
+                    </Link>
                 )}
                
-                <ReactRouterDOM.Link to="/cart" className="relative text-white flex items-center space-x-1">
+                <Link to="/cart" className="relative text-white flex items-center space-x-1">
                     <i className="fas fa-shopping-cart text-xl"></i>
                     <span className="hidden md:inline">Cart</span>
                     {cartCount > 0 && (
@@ -67,7 +66,7 @@ const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
                             {cartCount}
                         </span>
                     )}
-                </ReactRouterDOM.Link>
+                </Link>
             </div>
         </header>
     );
@@ -77,33 +76,33 @@ const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
 const BottomNav: React.FC = () => {
     return (
         <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_5px_-1px_rgba(0,0,0,0.1)] h-16 flex items-center justify-around z-40 md:hidden">
-            <ReactRouterDOM.Link to="/" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
+            <Link to="/" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
                 <i className="fas fa-home text-xl"></i>
                 <span className="text-xs">Home</span>
-            </ReactRouterDOM.Link>
-            <ReactRouterDOM.Link to="/wishlist" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
+            </Link>
+            <Link to="/wishlist" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
                 <i className="fas fa-heart text-xl"></i>
                 <span className="text-xs">Wishlist</span>
-            </ReactRouterDOM.Link>
-            <ReactRouterDOM.Link to="/cart" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
+            </Link>
+            <Link to="/cart" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
                 <i className="fas fa-shopping-bag text-xl"></i>
                 <span className="text-xs">Cart</span>
-            </ReactRouterDOM.Link>
-            <ReactRouterDOM.Link to="/orders" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
+            </Link>
+            <Link to="/orders" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
                 <i className="fas fa-box text-xl"></i>
                 <span className="text-xs">Orders</span>
-            </ReactRouterDOM.Link>
-            <ReactRouterDOM.Link to="/profile" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
+            </Link>
+            <Link to="/profile" className="flex flex-col items-center text-gray-600 hover:text-amber-500">
                 <i className="fas fa-user text-xl"></i>
                 <span className="text-xs">Profile</span>
-            </ReactRouterDOM.Link>
+            </Link>
         </nav>
     );
 };
 
 const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
     const { currentUser, logout } = useAuth();
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
@@ -118,20 +117,20 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
                 <div className="p-4">
                     <h2 className="text-xl font-bold text-gray-800 mb-6">Menu</h2>
                     <nav className="flex flex-col space-y-4">
-                        <ReactRouterDOM.Link to="/" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-home w-6 mr-2"></i>Home</ReactRouterDOM.Link>
-                        <ReactRouterDOM.Link to="/profile" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-user-circle w-6 mr-2"></i>Profile</ReactRouterDOM.Link>
-                        <ReactRouterDOM.Link to="/wishlist" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-heart w-6 mr-2"></i>My Wishlist</ReactRouterDOM.Link>
-                        <ReactRouterDOM.Link to="/orders" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-receipt w-6 mr-2"></i>My Orders</ReactRouterDOM.Link>
+                        <Link to="/" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-home w-6 mr-2"></i>Home</Link>
+                        <Link to="/profile" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-user-circle w-6 mr-2"></i>Profile</Link>
+                        <Link to="/wishlist" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-heart w-6 mr-2"></i>My Wishlist</Link>
+                        <Link to="/orders" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-receipt w-6 mr-2"></i>My Orders</Link>
                         
                         {currentUser && currentUser.isAdmin && (
-                            <ReactRouterDOM.Link to="/admin" onClick={onClose} className="text-amber-600 font-bold hover:text-amber-700"><i className="fas fa-tachometer-alt w-6 mr-2"></i>Admin Panel</ReactRouterDOM.Link>
+                            <Link to="/admin" onClick={onClose} className="text-amber-600 font-bold hover:text-amber-700"><i className="fas fa-tachometer-alt w-6 mr-2"></i>Admin Panel</Link>
                         )}
 
                         <hr />
                         {currentUser ? (
                             <button onClick={handleLogout} className="text-left text-red-500 hover:text-red-700"><i className="fas fa-sign-out-alt w-6 mr-2"></i>Logout</button>
                         ) : (
-                            <ReactRouterDOM.Link to="/login" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-sign-in-alt w-6 mr-2"></i>Login</ReactRouterDOM.Link>
+                            <Link to="/login" onClick={onClose} className="text-gray-700 hover:text-amber-500"><i className="fas fa-sign-in-alt w-6 mr-2"></i>Login</Link>
                         )}
                     </nav>
                 </div>
@@ -142,7 +141,7 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
 
 const UserLayout: React.FC = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
 
     const handleMobileSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -167,7 +166,7 @@ const UserLayout: React.FC = () => {
                         </button>
                     </form>
                 </div>
-                <ReactRouterDOM.Outlet />
+                <Outlet />
             </main>
             <BottomNav />
             <Chatbot />
